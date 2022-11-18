@@ -13,7 +13,9 @@ public class Transacao implements Serializable{
 	private Calendar dataTransacao;
 	private String descricaoTransacao;
 	
-	public Transacao() {};
+	public Transacao() {
+		
+	};
 	
 	public Transacao(Integer codTransacao, Integer t_tp_transa_cod_tp_transacao, Integer t_usuario_cod_usuario,
 			Double valorTransacao, Calendar dataTransacao, String descricaoTransacao) {

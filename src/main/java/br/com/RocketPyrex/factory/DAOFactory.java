@@ -3,8 +3,6 @@ package br.com.RocketPyrex.factory;
 import br.com.RocketPyrex.dao.ContaBancariaDAO;
 import br.com.RocketPyrex.dao.EnderecoDAO;
 import br.com.RocketPyrex.dao.InvestimentoDAO;
-import br.com.RocketPyrex.dao.PessoaFisicaDAO;
-import br.com.RocketPyrex.dao.PessoaJuridicaDAO;
 import br.com.RocketPyrex.dao.TelefoneDAO;
 import br.com.RocketPyrex.dao.TransacaoDAO;
 import br.com.RocketPyrex.dao.UsuarioDAO;
@@ -28,15 +26,7 @@ public class DAOFactory {
 	public static InvestimentoDAO getInvestimentoDAO() {
 		return new InvestimentoDAOImpl();
 	}
-	
-	public static PessoaFisicaDAO getPessoaFisicaDAO() {
-		return new PessoaFisicaDAOImpl();
-	}
  	
-	public static PessoaJuridicaDAO getPessoaJuridicaDAO() {
-		return new PessoaJuridicaDAOImpl();
-	}
-	
 	public static TelefoneDAO getTelefoneDAO() {
 		return new TelefoneDAOImpl();
 	}

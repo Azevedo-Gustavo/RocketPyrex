@@ -8,7 +8,9 @@ public class Porte implements Serializable{
 	private Integer codPorte;
 	private String descricaoPorte;
 	
-	public Porte() {};
+	public Porte() {
+		
+	};
 	
 	public Porte(Integer codPorte, String descricaoPorte) {
 		super();

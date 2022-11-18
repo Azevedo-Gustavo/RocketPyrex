@@ -15,7 +15,9 @@ public class Investimento implements Serializable{
 	private Calendar dataInvestimento;
 	private String descricaoInvestimento;
 		
-	public Investimento() {};
+	public Investimento() {
+		
+	};
 
 	public Investimento(Integer codInvestimento, Integer t_usuario_cod_usuario, Integer t_tp_invest_cod_tp_invest,
 			Double valorInvestimento, Double valorRendimento, Calendar dataInvestimento, String descricaoInvestimento) {

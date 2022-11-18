@@ -11,7 +11,9 @@ public class Telefone implements Serializable{
 	private String ddd;
 	private String numTelefone;
 	
-	public Telefone() {};
+	public Telefone() {
+		
+	};
 	
 	public Telefone(Integer codTelefone, Integer t_tp_telefone_cod_tp_telefone, Integer t_usuario_cod_usuario,
 			String ddd, String numTelefone) {

@@ -14,7 +14,9 @@ public class ContaBancaria implements Serializable {
 	private String digitoConta;
 	private Double saldo;
 	
-	public ContaBancaria() {};
+	public ContaBancaria() {
+		
+	};
 	
 	public ContaBancaria(Integer codConta, Integer t_banco_cod_banco, Integer t_usuario_cod_usuario, String numAgencia,
 			String digitoAgencia, String numConta, String digitoConta, Double saldo) {

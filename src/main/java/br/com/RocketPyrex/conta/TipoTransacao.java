@@ -5,7 +5,9 @@ public class TipoTransacao {
 	private Integer cod_tp_transacao;
 	private String ds_tp_transacao;
 	
-	public TipoTransacao() {};
+	public TipoTransacao() {
+		
+	};
 	
 	public TipoTransacao(Integer cod_tp_transacao, String ds_tp_dransacao) {
 		super();

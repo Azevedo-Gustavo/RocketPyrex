@@ -19,11 +19,15 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     public void cadastrarUsuario(Usuario usuario) {
     	try {
     		conexao = FintechDBManager.obterConexao();
-	        String sql = "INSERT INTO T_USUARIO(COD_USUARIO, NOME, DS_OBJETIVO, EMAIL) VALUES (SQ_USUARIO.NEXTVAL, ?, ?, ?)";
+	        String sql = "INSERT INTO T_USUARIO(COD_USUARIO, NOME, DS_OBJETIVO, EMAIL, "
+	        		+ "DOC_USUARIO, T_TP_USUARIO_COD_TP_USUARIO, T_PORTE_COD_PORTE) VALUES (SQ_USUARIO.NEXTVAL, ?, ?, ?, ?, ?)";
 	        stmt = conexao.prepareStatement(sql);
 	        stmt.setString(1, usuario.getNome());
 	        stmt.setString(2, usuario.getObjetivo());
 	        stmt.setString(3, usuario.getEmail());
+	        stmt.setString(4, usuario.getDocUsuario());
+	        stmt.setInt(5, usuario.getT_tp_usuario_cod_tp_usuario());
+	        stmt.setInt(6, usuario.getT_porte_cod_porte());
 	        
 	        stmt.executeUpdate();
 	        
@@ -46,7 +50,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	      
 	    try {
 	    	conexao = FintechDBManager.obterConexao();
-	        stmt = conexao.prepareStatement ("SELECT COD_USUARIO, NOME, DS_OBJETIVO, EMAIL FROM T_USUARIO");
+	        stmt = conexao.prepareStatement ("SELECT COD_USUARIO, NOME, DS_OBJETIVO, EMAIL, "
+	        		+ "DOC_USUARIO, T_TP_USUARIO_COD_TP_USUARIO, T_PORTE_COD_PORTE FROM T_USUARIO");
 	        rs = stmt.executeQuery();
 	        
 	        //Percorre todos os registros encontrados
@@ -55,8 +60,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	        	String nome = rs.getString("NOME");
 	        	String objetivo = rs.getString("DS_OBJETIVO");
 	        	String email = rs.getString("EMAIL");
+	        	String docUsuario = rs.getString("DOC_USUARIO");
+	        	int t_tp_usuario_cod_tp_usuario = rs.getInt("T_TP_USUARIO_COD_TP_USUARIO");
+	        	int t_porte_cod_porte = rs.getInt("T_PORTE_COD_PORTE");
+	        	
 	        	//Cria um objeto Usuario com as informações encontradas
-	        	Usuario usuario = new Usuario (codUsuario, nome, objetivo,email);
+	        	Usuario usuario = new Usuario (codUsuario, nome, objetivo,email, docUsuario, t_tp_usuario_cod_tp_usuario,
+	        			t_porte_cod_porte);
 	        	//Adiciona um usuario na lista
 	        	lista.add(usuario);
 	        	}
@@ -78,7 +88,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         
         try {
         	conexao = FintechDBManager.obterConexao();
-        	stmt = conexao.prepareStatement("SELECT COD_USUARIO, NOME, DS_OBJETIVO, EMAIL FROM T_USUARIO WHERE COD_USUARIO = ?");
+        	stmt = conexao.prepareStatement("SELECT COD_USUARIO, NOME, DS_OBJETIVO, EMAIL"
+        			+ "DOC_USUARIO, T_TP_USUARIO_COD_TP_USUARIO, T_PORTE_COD_PORTE FROM T_USUARIO WHERE COD_USUARIO = ?");
         	stmt.setInt(1, CodUsuario);
         	rs = stmt.executeQuery();
         	
@@ -87,7 +98,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	        	String nome = rs.getString("NOME");
 	        	String objetivo = rs.getString("DS_OBJETIVO");
 	        	String email = rs.getString("EMAIL");
-	        	usuario = new Usuario (codUsuario, nome, objetivo,email);
+	        	String docUsuario = rs.getString("DOC_USUARIO");
+	        	int t_tp_usuario_cod_tp_usuario = rs.getInt("T_TP_USUARIO_COD_TP_USUARIO");
+	        	int t_porte_cod_porte = rs.getInt("T_PORTE_COD_PORTE");
+	        	
+	        	usuario = new Usuario (codUsuario, nome, objetivo,email, docUsuario, t_tp_usuario_cod_tp_usuario,
+	        			t_porte_cod_porte);
 	            }
         	} catch (SQLException e) {
         		e.printStackTrace();
@@ -106,13 +122,17 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     	try {
     		conexao = FintechDBManager.obterConexao();
     		
-	        String sql = "UPDATE T_USUARIO SET NOME = ?, DS_OBJETIVO = ?, EMAIL = ? WHERE COD_USUARIO = ?";
+	        String sql = "UPDATE T_USUARIO SET NOME = ?, DS_OBJETIVO = ?, EMAIL = ? "
+	        		+ "DOC_USUARIO = ?, T_TP_USUARIO_COD_TP_USUARIO = ?, T_PORTE_COD_PORTE = ? WHERE COD_USUARIO = ?";
 	        		
 	        stmt = conexao.prepareStatement(sql);
 	        stmt.setString(1, usuario.getNome());
 	        stmt.setString(2, usuario.getObjetivo());
 	        stmt.setString(3, usuario.getEmail());
-	        stmt.setInt(4, usuario.getCodUsuario());
+	        stmt.setString(4, usuario.getDocUsuario());
+	        stmt.setInt(5, usuario.getT_tp_usuario_cod_tp_usuario());
+	        stmt.setInt(6, usuario.getT_porte_cod_porte());
+	        stmt.setInt(7, usuario.getCodUsuario());
 	        
 	        stmt.executeUpdate();
 	        } catch (SQLException e) {
