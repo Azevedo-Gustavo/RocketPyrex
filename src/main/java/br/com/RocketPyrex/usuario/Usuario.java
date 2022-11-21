@@ -2,6 +2,8 @@ package br.com.RocketPyrex.usuario;
 
 import java.io.Serializable;
 
+import br.com.RocketPyrex.util.Criptografia;
+
 public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -12,13 +14,14 @@ public class Usuario implements Serializable{
 	private String docUsuario;
 	private int t_tp_usuario_cod_tp_usuario;
 	private int t_porte_cod_porte;
+	private String senha;
 	
 	public Usuario() {
 		
 	}
 	
 	public Usuario(Integer codUsuario, String nome, String objetivo, String email, 
-			String docUsuario, int t_tp_usuario_cod_tp_usuario, int t_porte_cod_porte) {
+			String docUsuario, int t_tp_usuario_cod_tp_usuario, int t_porte_cod_porte, String senha) {
 		super();
 		this.codUsuario = codUsuario;
 		this.nome = nome;
@@ -27,7 +30,7 @@ public class Usuario implements Serializable{
 		this.docUsuario = docUsuario;
 		this.t_tp_usuario_cod_tp_usuario = t_tp_usuario_cod_tp_usuario;
 		this.t_porte_cod_porte = t_porte_cod_porte;
-		
+		setSenha(senha);
 	}
 
 	public Integer getCodUsuario() {
@@ -86,4 +89,15 @@ public class Usuario implements Serializable{
 		this.t_porte_cod_porte = t_porte_cod_porte;
 	}
 	
+	public String getSenha() {
+		return senha;
+	}
+	
+	public void setSenha(String senha) {
+		try {
+			this.senha = Criptografia.criptografar(senha);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}		
 }

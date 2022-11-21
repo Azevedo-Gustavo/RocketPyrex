@@ -1,0 +1,25 @@
+.logo {
+  width: 100px;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+}
+
+.container {
+}
+
+.grafico {
+  transform: rotate(90deg);
+  left: 0;
+  margin-left: -8rem;
+}
+
+.graficoDescription {
+  position: absolute;
+  left: 2.5rem;
+  margin-left: -2rem;
+}

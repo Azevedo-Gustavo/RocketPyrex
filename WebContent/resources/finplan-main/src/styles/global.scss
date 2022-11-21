@@ -1,0 +1,84 @@
+html,
+body {
+  width: 100%;
+  height: 100vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+:root {
+  --background: #f5f5f5;
+  --gradient-background: url(../../public/assets/gradient-background.svg);
+  --black: #000000;
+  --white: #ffffff;
+  --red: #c83535;
+
+  --primary-100: #79cbca;
+  --primary-110: #5ea1a0;
+
+  --secondary-90: #292929;
+  --secondary-100: #894ba6;
+
+  --success-90: #1bc250;
+  --success-100: #08a93c;
+  --success-110: #008f2d;
+
+  --yellow-100: #ffd194;
+
+  --info-90: #32fbfb;
+  --info-100: #04d9d9;
+  --info-110: #03b9b9;
+
+  --erro-90: #e1958e;
+  --error-100: #d97971;
+  --error-110: #d26056;
+
+  --neutral-200: #f7f7f7;
+  --neutral-300: #ececec;
+  --neutral-400: #cecfd1;
+  --neutral-500: #788089;
+  --neutral-600: #424a52;
+
+  --font-poppins: 400 1rem "Poppins", sans-serif;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+}
+
+body,
+input,
+textarea,
+select,
+button {
+  font: var(--font-poppins);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  border-radius: 6px;
+}
+
+button:hover {
+  background: var(--primary-110);
+  border: 1px solid var(--primary-110);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+a {
+  text-decoration: none;
+}

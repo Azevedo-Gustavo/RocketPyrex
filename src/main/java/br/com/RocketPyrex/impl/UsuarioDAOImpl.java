@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.RocketPyrex.dao.UsuarioDAO;
 import br.com.RocketPyrex.singleton.FintechDBManager;
@@ -15,12 +13,14 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	
 	private Connection conexao;
 	PreparedStatement stmt = null;
-  
-    public void cadastrarUsuario(Usuario usuario) {
-    	try {
-    		conexao = FintechDBManager.obterConexao();
-	        String sql = "INSERT INTO T_USUARIO(COD_USUARIO, NOME, DS_OBJETIVO, EMAIL, "
-	        		+ "DOC_USUARIO, T_TP_USUARIO_COD_TP_USUARIO, T_PORTE_COD_PORTE) VALUES (SQ_USUARIO.NEXTVAL, ?, ?, ?, ?, ?)";
+	
+	public void cadastrarUsuario(Usuario usuario) {
+		
+		try {
+			conexao = FintechDBManager.obterConexao();
+	        String sql = "INSERT INTO T_USUARIO(COD_USUARIO, NOME, DS_OBJETIVO, EMAIL, DOC_USUARIO, "
+	        		+ "T_TP_USUARIO_COD_TP_USUARIO, T_PORTE_COD_PORTE, DS_SENHA) "
+	        		+ "VALUES (SQ_TRANSACAO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
 	        stmt = conexao.prepareStatement(sql);
 	        stmt.setString(1, usuario.getNome());
 	        stmt.setString(2, usuario.getObjetivo());
@@ -28,143 +28,49 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	        stmt.setString(4, usuario.getDocUsuario());
 	        stmt.setInt(5, usuario.getT_tp_usuario_cod_tp_usuario());
 	        stmt.setInt(6, usuario.getT_porte_cod_porte());
+	        stmt.setString(7, usuario.getSenha());
 	        
 	        stmt.executeUpdate();
 	        
 	        } catch (SQLException e) {
-	    	  e.printStackTrace();
-	    	  } finally {
-	    		  try {
-	    			  stmt.close();
-	    			  conexao.close();
-	    			  } catch (SQLException e) {
-	    				  e.printStackTrace();
-	    				  }
-	    		  }
-    	}
+	        	e.printStackTrace();
+	        	} finally {
+	        		try {
+	        			stmt.close();
+	        			conexao.close();
+	        			} catch (SQLException e) {
+	        				e.printStackTrace();
+	        				}
+	        		}
+		}
+	
 
-	public List<Usuario> listarUsuario() {
-		//Cria uma lista de Usuarios
-	    List<Usuario> lista = new ArrayList<Usuario>();
-	    ResultSet rs = null;
-	      
-	    try {
-	    	conexao = FintechDBManager.obterConexao();
-	        stmt = conexao.prepareStatement ("SELECT COD_USUARIO, NOME, DS_OBJETIVO, EMAIL, "
-	        		+ "DOC_USUARIO, T_TP_USUARIO_COD_TP_USUARIO, T_PORTE_COD_PORTE FROM T_USUARIO");
+    public boolean validarUsuario(Usuario usuario) {
+    	ResultSet rs = null;
+    	
+    	try {
+    		conexao = FintechDBManager.obterConexao();
+	        String sql = "SELECT (EMAIL, SENHA) FROM T_USUARIO (WHERE EMAIL = ? AND SENHA = ?)";
+	        stmt = conexao.prepareStatement(sql);
+	        stmt.setString(1, usuario.getEmail());
+	        stmt.setString(1, usuario.getSenha());
+	        
 	        rs = stmt.executeQuery();
 	        
-	        //Percorre todos os registros encontrados
-	        while (rs.next()) {
-	        	int codUsuario = rs.getInt("COD_USUARIO");
-	        	String nome = rs.getString("NOME");
-	        	String objetivo = rs.getString("DS_OBJETIVO");
-	        	String email = rs.getString("EMAIL");
-	        	String docUsuario = rs.getString("DOC_USUARIO");
-	        	int t_tp_usuario_cod_tp_usuario = rs.getInt("T_TP_USUARIO_COD_TP_USUARIO");
-	        	int t_porte_cod_porte = rs.getInt("T_PORTE_COD_PORTE");
-	        	
-	        	//Cria um objeto Usuario com as informações encontradas
-	        	Usuario usuario = new Usuario (codUsuario, nome, objetivo,email, docUsuario, t_tp_usuario_cod_tp_usuario,
-	        			t_porte_cod_porte);
-	        	//Adiciona um usuario na lista
-	        	lista.add(usuario);
+	        if (rs.next()){
+	        	return true;
 	        	}
 	        } catch (SQLException e) {
-	    	  e.printStackTrace();
-	    	  } finally {
-	    		  try {
-	    			  stmt.close();
-	    			  conexao.close();
-	    			  } catch (SQLException e) {
-	    				  e.printStackTrace();
-	    				  }
-	    		  } return lista;
-	    		  }
-  
-    public Usuario buscarPorUsuario(int CodUsuario) {
-    	Usuario usuario = null;
-        ResultSet rs = null;
-        
-        try {
-        	conexao = FintechDBManager.obterConexao();
-        	stmt = conexao.prepareStatement("SELECT COD_USUARIO, NOME, DS_OBJETIVO, EMAIL"
-        			+ "DOC_USUARIO, T_TP_USUARIO_COD_TP_USUARIO, T_PORTE_COD_PORTE FROM T_USUARIO WHERE COD_USUARIO = ?");
-        	stmt.setInt(1, CodUsuario);
-        	rs = stmt.executeQuery();
-        	
-        	if (rs.next()){
-        		int codUsuario = rs.getInt("COD_USUARIO");
-	        	String nome = rs.getString("NOME");
-	        	String objetivo = rs.getString("DS_OBJETIVO");
-	        	String email = rs.getString("EMAIL");
-	        	String docUsuario = rs.getString("DOC_USUARIO");
-	        	int t_tp_usuario_cod_tp_usuario = rs.getInt("T_TP_USUARIO_COD_TP_USUARIO");
-	        	int t_porte_cod_porte = rs.getInt("T_PORTE_COD_PORTE");
-	        	
-	        	usuario = new Usuario (codUsuario, nome, objetivo,email, docUsuario, t_tp_usuario_cod_tp_usuario,
-	        			t_porte_cod_porte);
-	            }
-        	} catch (SQLException e) {
-        		e.printStackTrace();
-        		} finally {
-        			try {
-        				stmt.close();
+	        	e.printStackTrace();
+	        	}finally {
+	        		try {
+	        			stmt.close();
+        				rs.close();
         				conexao.close();
         				} catch (SQLException e) {
         					e.printStackTrace();
         					}
-        			} return usuario;
-        			}
-	
-    public void atualizarUsuario(Usuario usuario) {
-    	
-    	try {
-    		conexao = FintechDBManager.obterConexao();
-    		
-	        String sql = "UPDATE T_USUARIO SET NOME = ?, DS_OBJETIVO = ?, EMAIL = ? "
-	        		+ "DOC_USUARIO = ?, T_TP_USUARIO_COD_TP_USUARIO = ?, T_PORTE_COD_PORTE = ? WHERE COD_USUARIO = ?";
-	        		
-	        stmt = conexao.prepareStatement(sql);
-	        stmt.setString(1, usuario.getNome());
-	        stmt.setString(2, usuario.getObjetivo());
-	        stmt.setString(3, usuario.getEmail());
-	        stmt.setString(4, usuario.getDocUsuario());
-	        stmt.setInt(5, usuario.getT_tp_usuario_cod_tp_usuario());
-	        stmt.setInt(6, usuario.getT_porte_cod_porte());
-	        stmt.setInt(7, usuario.getCodUsuario());
-	        
-	        stmt.executeUpdate();
-	        } catch (SQLException e) {
-	        	e.printStackTrace();
-	        	} finally {
-	        		try {
-	        			stmt.close();
-	        			conexao.close();
-	        			} catch (SQLException e) {
-	        				e.printStackTrace();
-	        				}
 	        		}
-    	}
-  
-    public void removerUsuario(int codUsuario) {
-    	
-    	try {
-    		conexao = FintechDBManager.obterConexao();
-	        String sql = "DELETE FROM T_USUARIO WHERE COD_USUARIO = ?";
-	        stmt = conexao.prepareStatement(sql);
-	        stmt.setInt(1, codUsuario);
-	        
-	        stmt.executeUpdate();
-	        } catch (SQLException e) {
-	        	e.printStackTrace();
-	        	} finally {
-	        		try {
-	        			stmt.close();
-	        			conexao.close();
-	        			} catch (SQLException e) {
-	        				e.printStackTrace();
-	        				}
-	        		}
+    	return false;
     	}
     }

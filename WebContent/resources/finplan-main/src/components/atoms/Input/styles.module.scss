@@ -1,0 +1,35 @@
+.container {
+  color: var(--neutral-600);
+  position: relative;
+  margin-bottom: 1.5rem;
+
+  .label {
+    position: absolute;
+    opacity: 0;
+    transition: all 0.3s;
+    left: 0;
+    z-index: 1;
+    font-size: 75%;
+  }
+
+  .input {
+    border: none;
+    border-bottom: 1px solid var(--secondary-100);
+    color: var(--neutral-600);
+    padding: 0.5rem 0.5rem;
+    position: relative;
+    z-index: 3;
+    width: 100%;
+
+    &:focus + .label {
+      bottom: 85%;
+      line-height: 1;
+      opacity: 1;
+      padding: 4px;
+    }
+  }
+
+  :focus::placeholder {
+    color: transparent;
+  }
+}

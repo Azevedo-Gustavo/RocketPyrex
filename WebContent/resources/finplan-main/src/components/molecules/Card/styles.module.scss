@@ -1,0 +1,29 @@
+.card {
+  padding: 1rem;
+  border-radius: 10px;
+  color: var(--neutral-600);
+  width: max-content;
+  min-width: 163px;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 100%;
+    border-left: 3px solid var(--neutral-500);
+    padding-left: 0.5rem;
+  }
+}
+
+.receitas {
+  background: rgba(121, 203, 202, 0.2);
+}
+
+.despesas {
+  background: rgba(255, 209, 148, 0.3);
+
+  & > div {
+    border-left: 3px solid var(--red) !important;
+  }
+}

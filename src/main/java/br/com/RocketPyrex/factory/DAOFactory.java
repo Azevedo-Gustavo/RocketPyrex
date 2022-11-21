@@ -35,7 +35,7 @@ public class DAOFactory {
 		return new TransacaoDAOImpl();
 	}
 	
-	public static UsuarioDAO getUsuario() {
+	public static UsuarioDAO getUsuarioDAO() {
 		return new UsuarioDAOImpl();
 	}
 }
